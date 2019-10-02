@@ -17,12 +17,22 @@ die2 = np.random.choice([1,2,3,4,5,6], trials * samples).reshape(rows,cols)
 
 
 # If you flip 8 coins, what is the probability of getting exactly 3 heads? 
+
+n_trials = nrows = 10_000
+n_coins = ncols = 8
+
+rolls = np.random.choice([0, 1], n_trials * n_coins).reshape(nrows, ncols)
+
+rolls
+
+((rolls.sum(axis=1) == 3).astype(int)).sum()/n_trials
+
 # What is the probability of getting more than 3 heads?
 
 n_trials = nrows = 10_000
 n_coins = ncols = 8
 
-rolls = np.random.choice([0, 1], n_trials * n_dice).reshape(nrows, ncols)
+rolls = np.random.choice([0, 1], n_trials * n_coins).reshape(nrows, ncols)
 
 rolls
 
@@ -53,6 +63,7 @@ mu, sigma = 3, 1.5
 bought = np.random.normal(mu,sigma,trials * samples).reshape(rows, cols)
 
 (((17 - bought.sum(axis=1)) > 0).astype(int).sum())/trials
+
 # Compare Heights
 # Men have an average height of 178 cm and standard deviation of 8cm.
 # Women have a mean of 170, sd = 6cm.
@@ -79,7 +90,7 @@ trials = rows = 10_000
 
 samples = cols = 50
 
-installs = np.random.uniform(1,251,trials * samples).reshape(rows,cols)
+installs = np.random.uniform(1,250,trials * samples).reshape(rows,cols)
 
 (installs.min(axis=1) > 2).astype(int).sum()/trials
 
@@ -102,7 +113,7 @@ samples = cols = 150
 
 installs = np.random.uniform(1,250,trials * samples).reshape(rows,cols)
 
-(((installs.min(axis=1) > 2).astype(int).sum())/trials)
+1 - (((installs.min(axis=1) > 2).astype(int).sum())/trials)
 
 #How likely is it that 450 students all download anaconda without an issue?
 
@@ -134,7 +145,7 @@ samples = cols = 7
 
 df = np.random.choice([0, 0, 0, 1, 1, 1, 1, 1, 1, 1],trials * samples).reshape(rows,cols)
 
-(df.sum(axis=1) == 0).sum() / trials
+1 - (df.sum(axis=1) == 0).sum() / trials
 
 
 
@@ -144,7 +155,7 @@ samples = cols = 4
 
 df = np.random.choice([0, 0, 0, 1, 1, 1, 1, 1, 1, 1],trials * samples).reshape(rows,cols)
 
-(df.sum(axis=1) == 0).sum() / trials
+1 - (df.sum(axis=1) == 0).sum() / trials
 
 
 
