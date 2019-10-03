@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from scipy import stats
-
+from scipy.stats import norm, binom
 from scipy.stats import poisson
 import matplotlib.pyplot as plt
 
@@ -38,6 +38,8 @@ mu = 2
 
 
 # What is the probability that 3 or more cars come through the drive through?
+
+
 # How likely is it that the drive through gets at least 1 car?
 
 
@@ -66,20 +68,116 @@ top_five_percent
 
 stats.norm(3,.3).isf(.05)
 
+# What GPA constitutes the bottom 15% of the class?
+
+trials = cols = 10_000
+
+samples =  rows = 100
+
+mu, sigma = 3.0, .3
+
+grades = np.random.normal(mu,sigma,trials * samples).reshape(rows, cols)
+
+grades = pd.DataFrame(grades)
+
+grades = grades.apply(lambda x: x.sort_values().values)
+
+grades = grades.loc[[14]].mean(axis=0)
+
+bottom_fifteen_percent = grades.mean(axis=0)
+
+bottom_fifteen_percent
+
+stats.norm(3,.3).ppf(.15)
+
 # An eccentric alumnus left scholarship money for students in the third decile from the bottom of their class. 
 # Determine the range of the third decile. Would a student with a 2.8 grade point average qualify for this scholarship?
 
+trials = cols = 10_000
+
+samples = rows = 300
+
+mu, sigma = 3.0, .3
+
+grades = np.random.normal(mu,sigma,trials * samples).reshape(rows, cols)
+
+grades = pd.DataFrame(grades)
+
+grades = grades.apply(lambda x: x.sort_values().values)
+
+lower_range = grades.loc[[60]].mean(axis=0)
+
+lower_range_mean = lower_range.mean()
+
+lower_range_mean
+
+upper_range = grades.loc[[89]].mean(axis=0)
+
+upper_range_mean = upper_range.mean()
+
+upper_range_mean
+
+print("The range is between " + str(lower_range_mean) + " and " + str(upper_range_mean))
+
+import numpy as np
+import pandas as pd
+from scipy import stats
+from scipy.stats import norm, binom
+
+dist = norm(mu,sigma)
+
+lower = dist.ppf(.21)
+
+upper = dist.ppf(.30)
+
+print("The range is between " + str(lower) + " and " + str(upper))
+
+# If I have a GPA of 3.5, what percentile am I in?
+
+trials = rows = 10_000
+
+samples = cols = 100
+
+mu, sigma = 3.0, .3
+
+grades = np.random.normal(mu,sigma,trials * samples).reshape(rows, cols)
+
+grades = pd.DataFrame(grades)
+
+(grades >= 3.5).sum(axis=1).mean()
 
 
-# A marketing website has an average click-through rate of 2%. One day they observe 4326 visitors and 97 click-throughs. 
+
+mu, sigma = 3.0, .3
+
+dist = norm(mu,sigma)
+
+dist.sf(3.5)
+
+# A marketing website has an average click-through rate of 2%. 
+# One day they observe 4326 visitors and 97 click-throughs. 
 # How likely is it that this many people or more click through?
 
-# You are working on some statistics homework consisting of 100 questions where all of the answers are a probability rounded to the hundreths place. Looking to save time, you put down random probabilities as the answer to each question.
 
+
+# You are working on some statistics homework consisting of 100 questions where all of the answers are a probability rounded to the hundreths place. 
+# Looking to save time, you put down random probabilities as the answer to each question.
 # What is the probability that at least one of your first 60 answers is correct?
+
+
 # The codeup staff tends to get upset when the student break area is not cleaned up. 
-# Suppose that there's a 3% chance that any one student cleans the break area when they visit it, and, on any given day, about 90% of the 3 active cohorts of 22 students visit the break area. How likely is it that the break area gets cleaned up each day? How likely is it that it goes two days without getting cleaned up? All week?
+# Suppose that there's a 3% chance that any one student cleans the break area when they visit it, and, on any given day, 
+# about 90% of the 3 active cohorts of 22 students visit the break area. 
+# How likely is it that the break area gets cleaned up each day? 
+
+# How likely is it that it goes two days without getting cleaned up? 
+ 
+
+# All week?
 
 # You want to get lunch at La Panaderia, but notice that the line is usually very long at lunchtime. 
-# After several weeks of careful observation, you notice that the average number of people in line when your lunch break starts is normally distributed with a mean of 15 and standard deviation of 3. If it takes 2 minutes for each person to order, and 10 minutes from ordering to getting your food, what is the likelihood that you have at least 15 minutes left to eat your food before you have to go back to class? 
+# After several weeks of careful observation, you notice that the average number of people in line when your lunch break starts is normally distributed 
+# with a mean of 15 and standard deviation of 3. 
+# If it takes 2 minutes for each person to order, and 10 minutes from ordering to getting your food,
+# what is the likelihood that you have at least 15 minutes left to eat your food before you have to go back to class? 
 # Assume you have one hour for lunch, and ignore travel time to and from La Panaderia.
