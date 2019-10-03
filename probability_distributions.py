@@ -11,23 +11,7 @@ import matplotlib.pyplot as plt
 # A bank found that the average number of cars waiting during the noon hour at a drive-up window follows a Poisson distribution with a mean of 2 cars. 
 # Make a chart of this distribution and answer these questions concerning the probability of cars waiting at the drive-up window.
 
-# mu = 2
 
-# trials = 10_000
-
-# plt.ylabel('Probability of car passing')
-# plt.xlabel('Number of cars')
-# plt.title('Probability Distribution Curve')
-# arr = []
-# rv = poisson(mu)
-# for num in range(0,40):
-#  arr.append(rv.pmf(num))
- 
-# # print(rv.pmf(28))
-# prob = rv.pmf(28)
-# plt.grid(True)
-# plt.plot(arr, linewidth=2.0)
-# plt.plot([28], [prob], marker='o', markersize=6, color="red")
 
 
 # A bank found that the average number of cars waiting during the noon hour at a drive-up window follows a Poisson distribution with a mean of 2 cars.
@@ -158,7 +142,7 @@ mu, sigma = 3.0, .3
 
 dist = norm(mu,sigma)
 
-dist.sf(3.5)
+dist.cdf(3.5)
 
 # A marketing website has an average click-through rate of 2%. 
 # One day they observe 4326 visitors and 97 click-throughs. 
@@ -243,6 +227,7 @@ from scipy import stats
 from scipy.stats import norm, binom
 from scipy.stats import poisson
 import matplotlib.pyplot as plt
+
 
 n = 59
 
@@ -374,7 +359,23 @@ people = np.random.normal(mu,sigma,trials * samples)
 # Connect to the employees database and find the average salary of current employees, along with the standard deviation. 
 # Model the distribution of employees salaries with a normal distribution and answer the following questions:
 
+from env import host, user, password
 
+database = "employees"
+
+def get_db_url(user,host,password,database):
+
+    url = f'mysql+pymysql://{user}:{password}@{host}/{database}'
+    
+    return url
+
+url = get_db_url(user,host,password,database)
+
+query = """ SELECT * FROM employees """
+
+im = pd.read_sql(query, url)
+
+im
 
 # What percent of employees earn less than 60,000?
 # What percent of employees earn more than 95,000?
