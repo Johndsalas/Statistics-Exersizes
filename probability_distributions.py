@@ -11,6 +11,14 @@ import matplotlib.pyplot as plt
 # A bank found that the average number of cars waiting during the noon hour at a drive-up window follows a Poisson distribution with a mean of 2 cars. 
 # Make a chart of this distribution and answer these questions concerning the probability of cars waiting at the drive-up window.
 
+dist = stats.poisson(2)
+
+x = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+y = dist.pmf(x)
+
+plt.bar(x, y, color='blue', edgecolor='white', width=1)
+plt.xlabel('Cars')
+plt.ylabel('P(X)')
 
 
 
@@ -21,18 +29,24 @@ mu = 2
 
 stats.poisson(mu).pmf(0)
 
+dist = stats.poisson(2)
+
+(dist.rvs(10_000) == 0).mean()
 
 # What is the probability that 3 or more cars come through the drive through?
 
-mu = 2
+theory = dist.sf(2)
+simulated = (dist.rvs(10_000) >= 3).mean()
 
-stats.poisson(mu).sf(3)
+theory, simulated
 
 # How likely is it that the drive through gets at least 1 car?
 
-mu = 2
 
-stats.poisson(mu).sf(1)
+theory = dist.sf(0)
+simulated = (dist.rvs(10_000) > 0).mean()
+
+theory, simulated
 
 # Grades of State University graduates are normally distributed with a mean of 3.0 and a standard deviation of .3. 
 # Calculate the following:
@@ -341,7 +355,7 @@ sigma = 3
 
 binom = norm(mu,sigma)
 
-binom.cdf(17)
+binom.cdf(16)
 
 
 trials = rows = 50_000
