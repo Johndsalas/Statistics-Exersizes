@@ -385,13 +385,27 @@ def get_db_url(user,host,password,database):
 
 url = get_db_url(user,host,password,database)
 
-query = """ SELECT * FROM employees """
+query = """ SELECT * FROM salaries """
 
 im = pd.read_sql(query, url)
 
-im
+salaries = pd.read_sql(query, url)
 
 # What percent of employees earn less than 60,000?
+
+μ, σ = salaries.salary.mean(), salaries.salary.std()
+dist = stats.norm(μ, σ)
+
+dist.cdf(60_000)
+
 # What percent of employees earn more than 95,000?
+
+dist.sf(95_000)
+
 # What percent of employees earn between 65,000 and 80,000?
+
+((salaries.salary > 65_000) & (salaries.salary < 80_000)).mean()
+
 # What do the top 5% of employees make?
+
+salaries.salary.quantile(.95)
